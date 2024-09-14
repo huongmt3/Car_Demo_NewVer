@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Car Details{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Car Details</h1>
+
+        <div class="card">
+            <div class="card-header">
+                Car ID: {{ car.id }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Make: {{ car.make }}</h5>
+                <p class="card-text">Model: {{ car.model }}</p>
+                <p class="card-text">Travelled Distance: {{ car.travelledDistance }} km</p>
+            </div>
+            <div class="card-footer text-muted">
+                <a href="{{ path('car_edit', {'id': car.id}) }}" class="btn btn-primary">Edit</a>
+                <form action="{{ path('car_delete', {'id': car.id}) }}" method="post" style="display:inline;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ car.id) }}">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+                <a href="{{ path('car_index') }}" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

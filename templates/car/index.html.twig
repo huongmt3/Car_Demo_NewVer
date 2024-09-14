@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="bs-example" data-example-id="striped-table">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Travelled Distance</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for car in cars %}
+                    <tr>
+                        <th scope="row">{{ car.id }}</th>
+                        <td>{{ car.make }}</td>
+                        <td>{{ car.model }}</td>
+                        <td>{{ car.travelledDistance }}</td>
+                        <td>
+                            <a href="{{ path('car_show', {'id': car.id}) }}" class="btn btn-success">View</a>
+                            <a href="{{ path('car_edit', {'id': car.id}) }}" class="btn btn-default">Edit</a>
+                            <form action="{{ path('car_delete', {'id': car.id}) }}" method="post" style="display:inline;">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ car.id) }}">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                    </td>
+
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">No cars found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
