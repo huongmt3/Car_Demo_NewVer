@@ -28,23 +28,23 @@ class CarController extends AbstractController
         ));
     }
 
-  /**
+    /**
    * Finds and displays a car entity.
    *
    * @Route("/car/{id}", name="car_show", requirements={"id"="\d+"})
    */
-  public function showAction(CarRepository $carRepository, int $id): Response
-  {
-      $car = $carRepository->find($id);
+    public function showAction(CarRepository $carRepository, int $id): Response
+    {
+        $car = $carRepository->find($id);
 
-      if (!$car) {
-          throw $this->createNotFoundException('The car does not exist');
-      }
+        if (!$car) {
+            throw $this->createNotFoundException('The car does not exist');
+        }
 
-      return $this->render('car/show.html.twig', [
-          'car' => $car,
-      ]);
-  }
+        return $this->render('car/show.html.twig', [
+            'car' => $car,
+        ]);
+    }
 
     /**
      * @Route("/car/edit/{id}", name="car_edit", methods={"GET", "POST"}, requirements={"id"="\d+"})
