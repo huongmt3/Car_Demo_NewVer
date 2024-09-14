@@ -47,4 +47,12 @@ class CustomerRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findAllOrderedByBirthdate(string $order = 'ASC')
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->orderBy('c.birthDate', $order);
+
+        return $qb->getQuery()->getResult();
+    }
 }

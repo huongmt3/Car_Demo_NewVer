@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Customer Details{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="card-body">
+            <h1>Customer Details</h1>
+            <p>Name: {{ customer.name }}</p>
+            <p>Date of Birth: {{ customer.birthDate|date('d/m/Y') }}</p>
+            <p>Is Young Driver: {{ customer.isYoungDriver ? 'Yes' : 'No' }}</p>
+        </div>
+        <div class="card-footer text-muted">
+            <a href="{{ path('customer_edit', {'id': customer.id}) }}" class="btn btn-primary">Edit</a>
+            <form action="{{ path('customer_delete', {'id': customer.id}) }}" method="post" style="display:inline;">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ customer.id) }}">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+            <a href="{{ path('customer_list_ascending') }}" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+{% endblock %}

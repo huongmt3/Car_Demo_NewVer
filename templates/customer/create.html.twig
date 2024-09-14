@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add New Customer{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Add New Customer</h1>
+
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="btn btn-primary" type="submit">Create</button>
+        {{ form_end(form) }}
+
+        <a href="{{ path('customer_index') }}" class="btn btn-secondary mt-3">Back to Customer List</a>
+    </div>
+{% endblock %}
