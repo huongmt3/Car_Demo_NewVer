@@ -47,4 +47,38 @@ class CarRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    //order cars by model alphabetically
+    public function findCarsOrderedByModel(string $make): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.make = :make')
+            ->setParameter('make', $make)
+            ->orderBy('c.model', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    //order cars by travelled distance descending
+    public function findCarsOrderedByTravelledDistanceDesc(string $make): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.make = :make')
+            ->setParameter('make', $make)
+            ->orderBy('c.travelledDistance', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    //order cars by travelled distance ascending
+    public function findCarsOrderedByTravelledDistanceAsc(string $make): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.make = :make')
+            ->setParameter('make', $make)
+            ->orderBy('c.travelledDistance', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 }

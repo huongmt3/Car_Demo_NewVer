@@ -106,25 +106,61 @@ class CarController extends AbstractController
         return false;
     }
 
-/**
- * @Route("/car/delete/{id}", name="car_delete", methods={"POST"})
- */
-public function deleteAction(int $id, Request $request): Response
-{
-    $em = $this->getDoctrine()->getManager();
-    $car = $em->getRepository(Car::class)->find($id);
+    /**
+     * @Route("/car/delete/{id}", name="car_delete", methods={"POST"})
+     */
+    public function deleteAction(int $id, Request $request): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $car = $em->getRepository(Car::class)->find($id);
 
-    if (!$car) {
-        throw $this->createNotFoundException('Car not found');
+        if (!$car) {
+            throw $this->createNotFoundException('Car not found');
+        }
+
+        if ($this->isCsrfTokenValid('delete' . $car->getId(), $request->request->get('_token'))) {
+            $em->remove($car);
+            $em->flush();
+
+            $this->addFlash('notice', 'Car Deleted');
+        }
+
+        return $this->redirectToRoute('car_index');
     }
 
-    if ($this->isCsrfTokenValid('delete' . $car->getId(), $request->request->get('_token'))) {
-        $em->remove($car);
-        $em->flush();
+    /**
+     * @Route("/car/alphabetical", name="car_list_alphabetical")
+     */
+    public function listAlphabetical(CarRepository $carRepository): Response
+    {
+        $cars = $carRepository->findBy([], ['model' => 'ASC']);
 
-        $this->addFlash('notice', 'Car Deleted');
+        return $this->render('car/index.html.twig', [
+            'cars' => $cars,
+        ]);
     }
 
-    return $this->redirectToRoute('car_index');
-}
+    /**
+     * @Route("/car/travelled-distance/asc", name="car_list_travelled_distance_asc")
+     */
+    public function listByTravelledDistanceAsc(CarRepository $carRepository): Response
+    {
+        $cars = $carRepository->findBy([], ['travelledDistance' => 'ASC']);
+
+        return $this->render('car/index.html.twig', [
+            'cars' => $cars,
+        ]);
+    }
+
+    /**
+     * @Route("/car/travelled-distance/desc", name="car_list_travelled_distance_desc")
+     */
+    public function listByTravelledDistanceDesc(CarRepository $carRepository): Response
+    {
+        $cars = $carRepository->findBy([], ['travelledDistance' => 'DESC']);
+
+        return $this->render('car/index.html.twig', [
+            'cars' => $cars,
+        ]);
+    }
 }

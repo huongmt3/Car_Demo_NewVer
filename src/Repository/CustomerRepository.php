@@ -55,4 +55,22 @@ class CustomerRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function listDescendingAction(CustomerRepository $customerRepository): Response
+    {
+        $customers = $customerRepository->findAllOrderedByBirthdate('DESC');
+
+        return $this->render('customer/index.html.twig', [
+            'customers' => $customers,
+        ]);
+    }
+
+    public function listAscendingAction(CustomerRepository $customerRepository): Response
+    {
+        $customers = $customerRepository->findAllOrderedByBirthdate('ASC');
+
+        return $this->render('customer/index.html.twig', [
+            'customers' => $customers,
+        ]);
+    }
 }
