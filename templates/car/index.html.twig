@@ -37,6 +37,7 @@
                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ car.id) }}">
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
+                            <a href="{{ path('car_parts', {'id': car.id}) }}" class="btn btn-info">View Parts</a>
                         </td>
                     </tr>
                 {% else %}

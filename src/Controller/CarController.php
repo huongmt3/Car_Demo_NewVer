@@ -163,4 +163,20 @@ class CarController extends AbstractController
             'cars' => $cars,
         ]);
     }
+
+    /**
+     * @Route("/car/{id}/parts", name="car_parts", requirements={"id"="\d+"})
+     */
+    public function carWithPartsAction(int $id, CarRepository $carRepository): Response
+    {
+        $car = $carRepository->findCarWithParts($id);
+
+        if (!$car) {
+            throw $this->createNotFoundException('Car not found');
+        }
+
+        return $this->render('car/parts.html.twig', [
+            'car' => $car,
+        ]);
+    }
 }

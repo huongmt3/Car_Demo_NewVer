@@ -47,4 +47,24 @@ class SupplierRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    // Get all local suppliers
+    public function findLocalSuppliers()
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.isImporter = :isImporter')  // Use camelCase here
+            ->setParameter('isImporter', 0)  // Local suppliers have isImporter = 0
+            ->getQuery()
+            ->getResult();
+    }
+    
+    // Get all importers
+    public function findImporters()
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.isImporter = :isImporter')  // Use camelCase here
+            ->setParameter('isImporter', 1)  // Importers have isImporter = 1
+            ->getQuery()
+            ->getResult();
+    }
 }

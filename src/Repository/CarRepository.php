@@ -81,4 +81,15 @@ class CarRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    //order cars with parts
+    public function findCarWithParts(int $id): ?Car
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.parts', 'p')
+            ->addSelect('p')
+            ->where('c.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ type }} Suppliers</h1>
+
+    <div class="mb-3">
+        <a href="{{ path('local_suppliers') }}" class="btn btn-primary">View Local Suppliers</a>
+        <a href="{{ path('importer_suppliers') }}" class="btn btn-secondary">View Importers</a>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Number of Parts</th>
+                <th>Is Importer</th>  {# New column for isImporter #}
+            </tr>
+        </thead>
+        <tbody>
+            {% for supplier in suppliers %}
+                <tr>
+                    <td>{{ supplier.id }}</td>
+                    <td>{{ supplier.name }}</td>
+                    <td>{{ supplier.parts|length }}</td>
+                    <td>
+                        {% if supplier.isImporter %}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}
+                    </td>  {# Display Yes/No based on isImporter value #}
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">No suppliers found</td> {# Adjust colspan to 4 for the new column #}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
